@@ -1,0 +1,13 @@
+<h2>{{ recipes }}</h2>
+
+<h1>Come Hungry, Leave Satisfied</h1>
+
+<ul>
+	{% for foo in posts %}
+	<li>
+		<a href="/recipe/{{foo.id}}/">{{foo.title}}</a>
+		-- by
+		<a href="/author/{{foo.author.id}}/">{{foo.author.name}}</a>
+	</li>
+	{% endfor %}
+</ul>
