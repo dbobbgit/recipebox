@@ -19,7 +19,7 @@ Recipe:
 
 class Author(models.Model):
     name = models.CharField(max_length=50)
-    bio = models.TextField(max_length=150, blank=True, null=True)
+    bio = models.TextField(max_length=150)
 
     def __str__(self):
         """Returns the author name as a string when the Author instance is requested"""

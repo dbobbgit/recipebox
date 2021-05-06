@@ -1,10 +1,6 @@
 <p>{{author}}</p>
 <p>{{author.bio}}</p>
 
-<ul>
-	{% for foo in posts %}
-	<li>
-		<a href="/recipe/{{foo.id}}/">{{foo.title}}</a>
-	</li>
-	{% endfor %}
-</ul>
+{% for items in recipes %}
+<a href="/recipe/{{items.id}}"> {{items.title}}</a>
+{% endfor %}
