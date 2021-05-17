@@ -15,7 +15,7 @@ Recipe:
     - Instructions: TextField
 """
 
-class Author(forms.ModelForm):
+class AddAuthorForm(forms.ModelForm):
     class Meta:
         model = Author
         fields = [
@@ -26,6 +26,6 @@ class Author(forms.ModelForm):
 class AddRecipeForm(forms.Form):
     title = forms.CharField(max_length=100)
     author = forms.ModelChoiceField(queryset=Author.objects.all())
-    description = forms.TextField(max_length=500)
+    description = forms.CharField(max_length=500)
     time_required = forms.CharField(max_length=50)
-    instructions = forms.TextField(widget=forms.Textarea)
+    instructions = forms.CharField(widget=forms.Textarea)
