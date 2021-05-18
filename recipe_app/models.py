@@ -1,7 +1,7 @@
 from django.db import models
 
 from django.utils import timezone
-
+from django.contrib.auth.models import User
 # Create your models here.
 
 """
@@ -20,6 +20,7 @@ Recipe:
 class Author(models.Model):
     name = models.CharField(max_length=50)
     bio = models.TextField(max_length=150)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     def __str__(self):
         """Returns the author name as a string when the Author instance is requested"""
