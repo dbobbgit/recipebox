@@ -1,6 +1,8 @@
-from django.shortcuts import render, reverse, HttpResponseRedirect, HttpResponse
+from django.shortcuts import render, reverse, redirect, HttpResponseRedirect, HttpResponse
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
 
 # Create your views here.
 from .models import *
@@ -54,12 +56,30 @@ def add_author(req):
 
     return render(req, html, {'form': form})
 
-def login_view(req):
+def register_view(req):
     form = CreateUserForm()
 
     if req.method == 'POST':
         form = CreateUserForm(req.POST)
         if form.is_valid():
             form.save()
+            user = form.cleaned_data.get('username')
+            messages.success(req, "Congratulations, " + user + "! Your account has been created and you're ready to enjoy some tasty delights!")
+            return redirect('login_view')
 
     return render(req, 'register.html', {'form': form})
+
+def login_view(req):
+
+    if req.method == 'POST':
+        username = req.POST.get('username')
+        password = req.POST.get('password')
+        
+        user = authenticate(req, username=username, password=password)
+
+        if user is not None:
+            login(req, user)
+            return HttpResponseRedirect(reverse("homepage"))
+
+    context = {}
+    return render(req, 'login.html', context)
