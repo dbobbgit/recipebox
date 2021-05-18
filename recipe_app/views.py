@@ -1,9 +1,10 @@
-from django.shortcuts import render, reverse, HttpResponseRedirect
+from django.shortcuts import render, reverse, HttpResponseRedirect, HttpResponse
 
 # Create your views here.
 from recipe_app.models import Author, Recipe
 from recipe_app.forms import AddAuthorForm, AddRecipeForm
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required
 
 def index(req):
     recipes = Recipe.objects.all()
@@ -19,6 +20,7 @@ def author_detail(req, author_id: int):
     print(author_recipes[0].author) 
     return render(req, 'author_detail.html', {'author': my_author, 'recipes': author_recipes})
 
+@login_required
 def add_recipe(req):
     html = 'generic_form.html'
 
@@ -55,3 +57,5 @@ def add_author(req):
 #     form = UserCreationForm()
 #     return render(req, 'register.html', {'form': form})
 
+def login_view(req):
+    return HttpResponse("Hello!")
