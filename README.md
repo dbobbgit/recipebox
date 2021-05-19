@@ -5,6 +5,8 @@ Sources:
     https://www.youtube.com/watch?v=tUqUdu0Sjyc
   Using Messages in views and templates: 
     https://docs.djangoproject.com/en/3.2/ref/contrib/messages/
+  Redirect to next from login:
+    https://www.youtube.com/watch?v=ekyCxgtW3Js&t=106s
 """
 
 # recipebox-v1

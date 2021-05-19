@@ -1,14 +1,13 @@
-from django.shortcuts import render, reverse, redirect, HttpResponseRedirect, HttpResponse
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.decorators import login_required
-from django.contrib import messages
+from django.shortcuts import render, reverse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.contrib.admin.views.decorators import staff_member_required
+from .models import Author, Recipe
+from .forms import AddAuthorForm, AddRecipeForm
+from django.contrib.auth.models import User
+
 
 # Create your views here.
-from .models import *
-from .forms import AddAuthorForm, AddRecipeForm, CreateUserForm
-
-
 def index(req):
     recipes = Recipe.objects.all()
     return render(req, 'index.html', {'recipes': recipes})
@@ -44,30 +43,31 @@ def add_recipe(req):
 
     return render(req, html, {'form': form})
 
+@login_required
+@staff_member_required
 def add_author(req):
-    html = 'generic_form.html'
+    
+    html = 'new_user.html'
 
     if req.method == 'POST':
         form = AddAuthorForm(req.POST)
-        form.save()
-        return HttpResponseRedirect(reverse("homepage"))
+        if form.is_valid():
+            # form.save()
+            data = form.cleaned_data
+            my_user = User.objects.create_user(
+                username=data['username'], 
+                password=data['password1']
+                )
+            Author.objects.create(
+                name=data['name'], 
+                bio=data['bio'],
+                user = my_user
+                )
+            return HttpResponseRedirect(reverse('homepage'))
 
     form = AddAuthorForm()
 
     return render(req, html, {'form': form})
-
-def register_view(req):
-    form = CreateUserForm()
-
-    if req.method == 'POST':
-        form = CreateUserForm(req.POST)
-        if form.is_valid():
-            form.save()
-            user = form.cleaned_data.get('username')
-            messages.success(req, "Congratulations, " + user + "! Your account has been created and you're ready to enjoy some tasty delights!")
-            return redirect('login_view')
-
-    return render(req, 'register.html', {'form': form})
 
 def login_view(req):
 
@@ -77,9 +77,20 @@ def login_view(req):
         
         user = authenticate(req, username=username, password=password)
 
-        if user is not None:
+        if user:
             login(req, user)
-            return HttpResponseRedirect(reverse("homepage"))
+            if 'next' in req.POST:
+                return HttpResponseRedirect(req.POST.get('next'))
+            else:
+                return HttpResponseRedirect(reverse('homepage'))
+                
 
-    context = {}
+    next = req.GET.get('next', '')
+    context = {'next': next}
     return render(req, 'login.html', context)
+
+@login_required
+def user_logout(req):
+    logout(req)
+    return HttpResponseRedirect(reverse('homepage'))
+    
