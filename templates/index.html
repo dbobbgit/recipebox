@@ -1,11 +1,17 @@
-<!-- <h1>Come Hungry, Leave Satisfied</h1> -->
-
+<h1>Come Hungry, Leave Satisfied</h1>
+<a href="/addauthor">Add an Author</a>
+<br />
+<a href="/addrecipe">Add a Recipe</a>
 <ul>
 	{% for recipe in recipes %}
 	<li>
-		<a href="/recipe/{{recipe.id}}/">{{recipe.title}}</a>
-		<!-- -- by -->
-		<!-- <a href="/author/{{recipe.author.id}}/">{{recipe.author.name}}</a> -->
+		<a href="/recipe/{{recipe.id}}/">{{recipe.title}} | by {{recipe.author.name}}</a>
 	</li>
 	{% endfor %}
 </ul>
+
+{% if user.is_authenticated %}
+    <li><a href="/logout/">Logout</a></li>
+{% else %}
+    <li><a href="/login/">Login</a></li>
+{% endif %}

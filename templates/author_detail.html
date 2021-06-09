@@ -2,5 +2,8 @@
 <p>{{author.bio}}</p>
 
 {% for items in recipes %}
-<a href="/recipe/{{items.id}}"> {{items.title}}</a>
+<a href="/recipe/{{items.id}}">
+	<br />
+	{{items.title}}</a
+>
 {% endfor %}

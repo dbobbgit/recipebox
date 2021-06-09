@@ -19,11 +19,19 @@ from django.urls import path
 from recipe_app import views
 
 urlpatterns = [
+
+    path('', views.index, name="homepage"),
+    path('addrecipe/', views.add_recipe),
+    path('addauthor/', views.add_author),
     path('recipe/<int:recipe_id>/', views.recipe_detail),
     path('author/<int:author_id>/', views.author_detail),
-    path('', views.index),
     path('admin/', admin.site.urls),
+    path('register/', views.add_author, name='register_view'),
+    path('login/', views.login_view, name='login_view'),
+    path('logout/', views.user_logout, name='user_logout')
+
 ]
+
 
 """
 localhost:8000/admin

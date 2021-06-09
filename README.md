@@ -1,3 +1,14 @@
+# author: Danielle Bobb
+"""
+Sources:
+  Login Form Styling: 
+    https://www.youtube.com/watch?v=tUqUdu0Sjyc
+  Using Messages in views and templates: 
+    https://docs.djangoproject.com/en/3.2/ref/contrib/messages/
+  Redirect to next from login:
+    https://www.youtube.com/watch?v=ekyCxgtW3Js&t=106s
+"""
+
 # recipebox-v1
 
 Django is the most popular Python web framework for making user-facing applications, and it's easy to see why. With the famous tagline of "batteries included" and thousands of plugins on PyPI, it makes sense that you can find it in a lot of platforms.

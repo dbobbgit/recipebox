@@ -27,6 +27,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# Login redirect for login decorators
+LOGIN_URL = '/login/'
+
 
 # Application definition
 
